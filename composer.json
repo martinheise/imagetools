@@ -1,0 +1,22 @@
+{
+    "name": "mhe/imagetools",
+    "description": "Tools for generating responsive images",
+    "authors": [
+        {
+            "name": "Martin Heise",
+            "email": "info@martinheise.de"
+        }
+    ],
+    "require": {
+        "php": "^8.0"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^9.5"
+    },
+    "autoload": {
+        "psr-4": {
+            "Mhe\\Imagetools\\": "src/",
+            "Mhe\\Imagetools\\Tests\\": "tests/"
+        }
+    }
+}

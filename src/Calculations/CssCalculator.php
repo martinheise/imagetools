@@ -80,10 +80,11 @@ class CssCalculator
 
     /**
      * calculates given image sizes for different width breakpoints, according media-query
+     * returns entries for each breakpoint (below and above point) and the minimum and maximum viewport widths
      * @internal may change in the future, public only for testing
      *
      * @param $string string, e.g. "(width > 1600px) 800px, (width > 800px) 40vw, 80vw"
-     * @return array
+     * @return array associative array in the form [ viewportwidth => imagewidth ... ]
      */
     public function calculateBreakpointValues($string)
     {
@@ -96,7 +97,7 @@ class CssCalculator
 
         foreach ($sizetokens as $token) {
             $range = $this->calculateBreakpointRange($token, $minbp, $maxbp);
-            if (is_array($range)) {
+            if (is_array($range) and count($range) > 1) {
                 $bps = array_keys($range);
                 // limit breakpoints for next step
                 if ($bps[0] > $minbp) {
@@ -111,6 +112,10 @@ class CssCalculator
                     $ranges[$bps[1]] = $range[$bps[1]];
                 }
             }
+        }
+        if (count($ranges) == 0) {
+            $ranges[$minbp] = $minbp;
+            $ranges[$maxbp] = $maxbp;
         }
         return $ranges;
     }

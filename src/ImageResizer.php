@@ -88,13 +88,13 @@ class ImageResizer
         // ToDo: support configured image ratio ?
         $ratio = null;
 
-        $sizevalues = $this->cssCalculator->calculateBreakpointValues($config->getSizesstring());
+        $sizevalues = $this->cssCalculator->calculateBreakpointValues($config->getSizes());
 
         $minwidth = min(array_values($sizevalues));
         $maxwidth = max(array_values($sizevalues));
 
         // prevent upscaling
-        // ToDo: check logic, especially for retina
+        // ToDo: check logic, especially for retina – retina will still be upscaled this way!
         $maxwidth = min($maxwidth, $srcimage->getWidth());
         if ($maxwidth < $minwidth) {
             $minwidth = $maxwidth;

@@ -40,7 +40,7 @@ class DummyImage implements ImageData
      */
     public function getPublicPath(): string
     {
-        return "dummy_" . $this->getWidth() . "_" . $this->getFilesize(). ".jpg";
+        return "dummy_" . $this->getWidth() . "_" . $this->getFilesize() . ".jpg";
     }
 
     /**
@@ -48,7 +48,7 @@ class DummyImage implements ImageData
      */
     public function resize($width): ImageData
     {
-        $filesize = $this->getFilesize() / ($this->width / $width)^2;
+        $filesize = round($this->getFilesize() / ($this->width / $width) ** 2);
         return new DummyImage($width, $filesize);
     }
 }

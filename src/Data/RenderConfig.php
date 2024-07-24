@@ -7,7 +7,7 @@ namespace Mhe\Imagetools\Data;
  */
 class RenderConfig
 {
-    protected string $sizesstring;
+    protected string $sizes;
     protected int $maxsteps;
     protected int $sizediff;
     protected int $retinalevel;
@@ -22,7 +22,7 @@ class RenderConfig
      */
     public function __construct(string $sizes, int $maxsteps = 10, int $sizediff = 50000, int $retinalevel = 1, array $rendersizes = [])
     {
-        $this->sizesstring = $sizes;
+        $this->sizes = $sizes;
         $this->maxsteps = $maxsteps;
         $this->sizediff = $sizediff;
         $this->retinalevel = $retinalevel;
@@ -55,17 +55,36 @@ class RenderConfig
     /**
      * @return string
      */
+    public function getSizes(): string
+    {
+        return $this->sizes;
+    }
+
+    /**
+     * @param string $sizes
+     */
+    public function setSizes(string $sizes): void
+    {
+        $this->sizes = $sizes;
+        $this->validateValues();
+    }
+
+    /**
+     * @return string
+     * @deprecated Use getSizes() instead
+     */
     public function getSizesstring(): string
     {
-        return $this->sizesstring;
+        return $this->sizes;
     }
 
     /**
      * @param string $sizesstring
+     * @deprecated Use getSizes() instead
      */
     public function setSizesstring(string $sizesstring): void
     {
-        $this->sizesstring = $sizesstring;
+        $this->sizes = $sizesstring;
         $this->validateValues();
     }
 

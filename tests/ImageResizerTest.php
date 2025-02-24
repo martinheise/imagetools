@@ -46,9 +46,9 @@ class ImageResizerTest extends TestCase
     {
         $config = new RenderConfig("100vw", 5, 1000000, 2, []);
         $variants = $this->resizer->getVariants($this->images['200'], $config);
-        $this->assertResultWidths([400, 200], $variants); // kept original size
+        $this->assertResultWidths([200, 400], $variants); // kept original size
         $variants = $this->resizer->getVariants($this->images['4800'], $config);
-        $this->assertResultWidths([4800, 2400], $variants); // max viewport
+        $this->assertResultWidths([2400, 4800], $variants); // max viewport
     }
 
     public function testRemValue()
@@ -92,12 +92,12 @@ class ImageResizerTest extends TestCase
     {
         $config = new RenderConfig("100vw", 10, 64000, 2, []);
         $variants = $this->resizer->getVariants($this->images['200'], $config);
-        $this->assertResultWidths([400, 200], $variants); // kept original size
+        $this->assertResultWidths([200, 400], $variants); // kept original size
         $variants = $this->resizer->getVariants($this->images['4800'], $config);
         $this->assertEquals(10, count($variants));
-        // first step for 2x should be: 4800px -> filesize: 1024000 => 10 (max)steps, limited by next level
         // first step should be: 2400px -> filesize: 256000 => 4 steps
-        $this->assertResultWidths([4800, 4437, 4067, 3688, 3299, 2897, 2400, 1939, 1449, 900], $variants); // max viewport
+        // first step for 2x should be: 4800px -> filesize: 1024000 => 10 (max)steps, limited by 1x level
+        $this->assertResultWidths([2400, 1939, 1449, 900, 4800, 4437, 4067, 3688, 3299, 2897], $variants); // max viewport
     }
 
     public function testMaxSteps()
@@ -114,11 +114,11 @@ class ImageResizerTest extends TestCase
     {
         $config = new RenderConfig("100vw", 4, 1000, 2, []);
         $variants = $this->resizer->getVariants($this->images['200'], $config);
-        $this->assertResultWidths([400, 200], $variants); // kept original size
+        $this->assertResultWidths([200, 400], $variants); // kept original size
         $variants = $this->resizer->getVariants($this->images['4800'], $config);
         $this->assertEquals(7, count($variants));
         // highres resolutions: 2x the regular ones, but stopping before reaching 1x width, so fewer values
-        $this->assertResultWidths([4800, 3878, 2897, 2400, 1939, 1449, 900], $variants); // max viewport
+        $this->assertResultWidths([2400, 1939, 1449, 900, 4800, 3878, 2897], $variants); // max viewport
     }
 
     public function testBreakpoints()

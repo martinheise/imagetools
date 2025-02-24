@@ -105,12 +105,14 @@ class ImageResizer
         }
 
         $variants = [];
+        // 1x resolutions first – can be used for meaningful src attribute
+        $variants = array_merge($variants, $this->processVariants($srcimage, $maxwidth, $minwidth, $ratio, $config->getSizediff(), $config->getMaxsteps(), $config->getRendersizes()));
+        // additional highres renditions
         if (count($config->getRendersizes()) == 0) {
             for ($r = $config->getHighres(); $r > 1; $r--) {
                 $variants = array_merge($variants, $this->processVariants($srcimage, $maxwidth * $r, $maxwidth * ($r - 1) * 1.2, $ratio, $config->getSizediff(), $config->getMaxsteps()));
             }
         }
-        $variants = array_merge($variants, $this->processVariants($srcimage, $maxwidth, $minwidth, $ratio, $config->getSizediff(), $config->getMaxsteps(), $config->getRendersizes()));
 
         return $variants;
     }

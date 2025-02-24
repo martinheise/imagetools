@@ -76,9 +76,9 @@ Lower values mean more generated files, better matching the particular user cond
 
 Set a limit on the number of renditions generated, has precedence of `sizediff`. With low `sizediff` values and large images this will assure that you don’t end up with vast amount of images generated.
 
-#### retinalevel
+#### highres
 
-Set to either `2` or `3`adds up extra levels for high resolution screens. If e.g. the maximum calculated image width is 1200px, also renditions for 2400px are created.
+Set to either `2` or `3` adds up extra levels for high resolution screens. If e.g. the maximum calculated image width is 1200px, also renditions for 2400px (or even 3600px) are created.
 
 #### rendersizes
 

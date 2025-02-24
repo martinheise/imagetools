@@ -10,22 +10,22 @@ class RenderConfig
     protected string $sizes;
     protected int $maxsteps;
     protected int $sizediff;
-    protected int $retinalevel;
+    protected int $highres;
     protected array $rendersizes;
 
     /**
      * @param $sizes string image size definition, possibly containing media queries, as given in img sizes attribute, e.g. "(max-width: 1000px) 100vw, 1000px"
      * @param $maxsteps int maximum number of image variants to create
      * @param $sizediff int desired filesize difference (in bytes) between variants – will not be considered exactly but is a rough goal
-     * @param $retinalevel int number of levels for retina resolutions (1, 2, 3)
+     * @param $highres int levels for pixel density (1, 2 or 3)
      * @param $rendersizes int[] optionally set fixed sizes (in px) to generate – the other params for auto calculation will be ignored
      */
-    public function __construct(string $sizes, int $maxsteps = 10, int $sizediff = 50000, int $retinalevel = 1, array $rendersizes = [])
+    public function __construct (string $sizes, int $maxsteps = 10, int $sizediff = 50000, int $highres = 1, array $rendersizes = [])
     {
         $this->sizes = $sizes;
         $this->maxsteps = $maxsteps;
         $this->sizediff = $sizediff;
-        $this->retinalevel = $retinalevel;
+        $this->highres = $highres;
         $this->rendersizes = $rendersizes;
         $this->validateValues();
     }
@@ -42,7 +42,7 @@ class RenderConfig
         } else {
             $this->sizediff = max($this->sizediff, 20000);
         }
-        $this->retinalevel = max(min($this->retinalevel, 3), 1);
+        $this->highres = max(min($this->highres, 3), 1);
         foreach ($this->rendersizes as $size) {
             if (!is_numeric($size)) {
                 $this->rendersizes = [];
@@ -122,21 +122,34 @@ class RenderConfig
         $this->validateValues();
     }
 
-    /**
-     * @return int
-     */
-    public function getRetinalevel(): int
+    public function getHighres(): int
     {
-        return $this->retinalevel;
+        return $this->highres;
     }
 
     /**
-     * @param int $retinalevel
+     * @param int $highres
+     */
+    public function setHighres(int $highres): void
+    {
+        $this->highres = $highres;
+        $this->validateValues();
+    }
+
+    /**
+     * @deprecated use getHighres()
+     */
+    public function getRetinalevel(): int
+    {
+        return $this->getHighres();
+    }
+
+    /**
+     * @deprecated use setHighres()
      */
     public function setRetinalevel(int $retinalevel): void
     {
-        $this->retinalevel = $retinalevel;
-        $this->validateValues();
+        $this->setHighres($retinalevel);
     }
 
     /**

@@ -42,7 +42,7 @@ class ImageResizerTest extends TestCase
         $this->assertResultWidths([2400], $variants); // max viewport
     }
 
-    public function testSimpleRetina()
+    public function testSimpleHighres()
     {
         $config = new RenderConfig("100vw", 5, 1000000, 2, []);
         $variants = $this->resizer->getVariants($this->images['200'], $config);
@@ -88,7 +88,7 @@ class ImageResizerTest extends TestCase
         $this->assertResultWidths([2400, 1939, 1449, 900], $variants); // max viewport
     }
 
-    public function testSizeDiffRetina()
+    public function testSizeDiffHighres()
     {
         $config = new RenderConfig("100vw", 10, 64000, 2, []);
         $variants = $this->resizer->getVariants($this->images['200'], $config);
@@ -110,14 +110,14 @@ class ImageResizerTest extends TestCase
         $this->assertResultWidths([2400, 1939, 1449, 900], $variants); // max viewport
     }
 
-    public function testMaxStepsRetina()
+    public function testMaxStepsHighres()
     {
         $config = new RenderConfig("100vw", 4, 1000, 2, []);
         $variants = $this->resizer->getVariants($this->images['200'], $config);
         $this->assertResultWidths([400, 200], $variants); // kept original size
         $variants = $this->resizer->getVariants($this->images['4800'], $config);
         $this->assertEquals(7, count($variants));
-        // retina resolutions: 2x the regular ones, but stopping before reaching 1x width, so fewer values
+        // highres resolutions: 2x the regular ones, but stopping before reaching 1x width, so fewer values
         $this->assertResultWidths([4800, 3878, 2897, 2400, 1939, 1449, 900], $variants); // max viewport
     }
 
